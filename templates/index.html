@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Data Cleaner - Smart Data Cleaning with Natural Language</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">🧹</span>
+            <span class="logo-text">AI Data Cleaner</span>
+        </div>
+        <nav class="nav">
+            <button class="nav-btn active" data-view="upload">
+                <span>📤</span> Upload & Clean
+            </button>
+            <button class="nav-btn" data-view="history">
+                <span>📊</span> History
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Upload & Clean View -->
+        <section id="upload-view" class="view active">
+            <!-- Step 1: Upload -->
+            <div class="card upload-card" id="upload-section">
+                <div class="card-header">
+                    <h2><span>1</span> Upload Your Data</h2>
+                </div>
+                <div class="card-body">
+                    <div class="upload-zone" id="upload-zone">
+                        <div class="upload-icon">☁️</div>
+                        <h3>Drag & Drop CSV File Here</h3>
+                        <p>or click to browse</p>
+                        <div class="upload-hint">
+                            <span>✓</span> Supported: CSV, up to 100MB
+                        </div>
+                        <input type="file" id="file-input" accept=".csv" hidden>
+                    </div>
+                    <div class="upload-progress hidden" id="upload-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <p>Analyzing your data...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Preview (Hidden initially) -->
+            <div class="card preview-card hidden" id="preview-section">
+                <div class="card-header">
+                    <h2><span>2</span> Data Preview</h2>
+                    <div class="file-info">
+                        <span class="file-name" id="file-name"></span>
+                        <button class="btn btn-outline btn-sm" id="change-file">Change File</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-icon">📊</div>
+                            <div class="stat-value" id="stat-rows">0</div>
+                            <div class="stat-label">Rows</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-icon">📋</div>
+                            <div class="stat-value" id="stat-cols">0</div>
+                            <div class="stat-label">Columns</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-icon">✓</div>
+                            <div class="stat-value" id="stat-dups">0</div>
+                            <div class="stat-label">Duplicates</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-icon">⚠️</div>
+                            <div class="stat-value" id="stat-missing">0</div>
+                            <div class="stat-label">Missing Values</div>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table" id="preview-table">
+                            <thead></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <div class="validation-issues hidden" id="validation-issues">
+                        <h4>⚠️ Validation Issues</h4>
+                        <ul id="issues-list"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Clean (Hidden initially) -->
+            <div class="card clean-card hidden" id="clean-section">
+                <div class="card-header">
+                    <h2><span>3</span> Describe Your Cleaning Task</h2>
+                </div>
+                <div class="card-body">
+                    <div class="prompt-input-container">
+                        <textarea id="cleaning-prompt" placeholder="Describe how you want to clean your data in natural language...
+
+Examples:
+• Remove duplicate rows
+• Fill missing values in age column with mean
+• Remove rows where age is less than 18
+• Standardize column names
+• Convert date column to datetime format" rows="4"></textarea>
+                        <button class="btn btn-primary btn-lg" id="clean-btn">
+                            <span class="btn-icon">🧹</span>
+                            Clean Data
+                        </button>
+                    </div>
+
+                    <div class="suggestions">
+                        <h4>Quick Actions:</h4>
+                        <div class="suggestion-tags" id="suggestion-tags">
+                            <button class="suggestion-tag" data-prompt="Remove duplicate rows">Remove
+                                Duplicates</button>
+                            <button class="suggestion-tag" data-prompt="Fill missing values with mean">Fill Missing
+                                (Mean)</button>
+                            <button class="suggestion-tag" data-prompt="Fill missing values with median">Fill Missing
+                                (Median)</button>
+                            <button class="suggestion-tag" data-prompt="Drop rows with missing values">Drop Missing
+                                Rows</button>
+                            <button class="suggestion-tag" data-prompt="Standardize column names">Standardize
+                                Columns</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Results (Hidden initially) -->
+            <div class="card results-card hidden" id="results-section">
+                <div class="card-header">
+                    <h2><span>✓</span> Cleaning Results</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Export Box - Prominent Download Section -->
+                    <div class="export-box" id="export-box">
+                        <div class="export-header">
+                            <div class="export-icon">📥</div>
+                            <div class="export-title">
+                                <h3>Your Cleaned Data is Ready!</h3>
+                                <p id="export-filename">cleaned_data.csv</p>
+                            </div>
+                        </div>
+                        <div class="export-actions">
+                            <button class="btn btn-primary btn-lg export-main-btn" id="export-btn">
+                                <span>⬇️</span> Download CSV (Power BI)
+                            </button>
+                            <button class="btn btn-outline" id="export-excel-btn">
+                                <span>📊</span> Download Excel
+                            </button>
+                        </div>
+                        <div class="export-info">
+                            <span class="export-badge">✓ UTF-8 BOM Encoding</span>
+                            <span class="export-badge">✓ Power BI Compatible</span>
+                            <span class="export-badge">✓ Excel Compatible</span>
+                        </div>
+                    </div>
+
+                    <div class="results-summary">
+                        <div class="result-stat success">
+                            <div class="result-icon">✓</div>
+                            <div class="result-info">
+                                <div class="result-value"><span id="result-rows-after">0</span> rows</div>
+                                <div class="result-label">Cleaned Data</div>
+                            </div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-icon">🗑️</div>
+                            <div class="result-info">
+                                <div class="result-value"><span id="result-rows-removed">0</span> rows</div>
+                                <div class="result-label">Removed</div>
+                            </div>
+                        </div>
+                        <div class="result-stat">
+                            <div class="result-icon">🤖</div>
+                            <div class="result-info">
+                                <div class="result-value" id="result-parser">Pattern</div>
+                                <div class="result-label">Parser Used</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="actions-log">
+                        <h4>Actions Applied:</h4>
+                        <ul id="actions-list"></ul>
+                    </div>
+
+                    <div class="cleaned-preview">
+                        <h4>Cleaned Data Preview:</h4>
+                        <div class="table-container">
+                            <table class="data-table" id="cleaned-table">
+                                <thead></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Clean Another Button -->
+                    <div class="clean-another-container">
+                        <button class="btn btn-outline btn-lg" id="clean-another">
+                            <span>🔄</span> Clean Another File
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History View -->
+        <section id="history-view" class="view">
+            <div class="card">
+                <div class="card-header">
+                    <h2>📊 Cleaning History</h2>
+                    <button class="btn btn-outline" id="refresh-history">
+                        <span>🔄</span> Refresh
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="history-list" id="history-list">
+                        <div class="empty-state">
+                            <div class="empty-icon">📭</div>
+                            <h3>No cleaning history yet</h3>
+                            <p>Upload and clean a CSV file to see it here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loading-overlay">
+        <div class="loading-spinner"></div>
+        <p id="loading-text">Processing...</p>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="/static/js/storage.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>

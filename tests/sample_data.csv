@@ -1,0 +1,21 @@
+name,age,email,city,join_date,status,salary
+Alice Johnson,28,alice@example.com,New York,2023-01-15,active,75000
+Bob Smith,35,bob@example.com,Los Angeles,2023-02-20,active,82000
+Charlie Brown,42,charlie@example.com,Chicago,2023-03-10,inactive,68000
+Alice Johnson,28,alice@example.com,New York,2023-01-15,active,75000
+Diana Prince,31,,Washington DC,2023-04-05,active,91000
+Eve Wilson,,eve@example.com,Boston,2023-05-12,pending,
+Frank Miller,29,frank@example.com,Seattle,2023-06-18,active,77000
+Grace Lee,45,grace@example.com,San Francisco,2023-07-22,active,95000
+Henry Davis,38,henry@example.com,Miami,2023-08-30,inactive,72000
+Ivy Chen,26,ivy@example.com,Portland,2023-09-14,active,
+Jack Wilson,33,,Denver,2023-10-01,active,79000
+Kate Brown,41,kate@example.com,Austin,2023-11-08,pending,88000
+Leo Garcia,29,leo@example.com,Phoenix,2023-12-15,active,71000
+Maria Santos,36,maria@example.com,San Diego,2024-01-20,active,84000
+Nick Taylor,44,,Houston,2024-02-28,inactive,
+Olivia White,32,olivia@example.com,Dallas,2024-03-10,active,78000
+Peter Johnson,27,peter@example.com,Atlanta,2024-04-15,pending,69000
+Quinn Adams,39,quinn@example.com,Minneapolis,2024-05-22,active,86000
+Rachel Green,30,rachel@example.com,Nashville,2024-06-30,active,73000
+Sam Harris,17,sam@example.com,Charlotte,2024-07-05,pending,45000

@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+*.pyc
+
+# Data and SQLite  
+*.db
+uploads/
+results/
+data/
+database/
+!database/.gitkeep
+
+# IDEs
+.vscode/
+.idea/
+.gemini/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
